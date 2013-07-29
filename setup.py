@@ -29,7 +29,18 @@ Then, update your ``wsgi.py`` file to use dj-static::
 
 """
 
+import sys
+
 from setuptools import setup
+
+
+def get_requirements(filename):
+    return list([x.strip() for x in open(filename).readlines()])
+
+if sys.argv[-1] == 'test':
+    requirements = get_requirements("requirements_test.txt")
+else:
+    requirements = get_requirements("requirements.txt")
 
 setup(
     name='dj-static',
@@ -42,7 +53,7 @@ setup(
     long_description=__doc__,
     py_modules=['dj_static'],
     zip_safe=False,
-    install_requires=['staticserve'],
+    install_requires=requirements,
     include_package_data=True,
     platforms='any',
     classifiers=[
@@ -53,5 +64,6 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
-    ]
+    ],
+    test_suite='tests',
 )

@@ -56,6 +56,7 @@ class Cling(WSGIHandler):
     def __call__(self, environ, start_response):
         # Hand non-static requests to Django
         if not self._should_handle(get_path_info(environ)):
+            print(type(self.application))
             return self.application(environ, start_response)
 
         # Serve static requests from static.Cling
